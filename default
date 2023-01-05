@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name dev-1.site www.dev-1.site;
+
+location / {
+        proxy_pass http://dev-1.site:8080;
+
+        proxy_set_header Host $http_host;
+        server_name_in_redirect off;
+        proxy_redirect off;
+        rewrite ^([^.]*[^/])$ http://dev-1.site:8080$1/ permanent;   #This will add trailing /
+    }
+}
